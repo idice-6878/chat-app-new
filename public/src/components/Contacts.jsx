@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Logo from "../assets/logo.svg";
 
 export default function Contacts({ contacts, changeChat }) {
-  console.log(contacts);
+  console.log("contact", contacts);
   //24-12-2024
   const [searchQuery, setSearchQuery] = useState("");
   //24-12-2024
@@ -14,6 +14,7 @@ export default function Contacts({ contacts, changeChat }) {
     const data = await JSON.parse(
       localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
     );
+    console.log(data);
     setCurrentUserName(data.username);
     setCurrentUserImage(data.avatarImage);
   }, []);
@@ -57,8 +58,12 @@ export default function Contacts({ contacts, changeChat }) {
                   onClick={() => changeCurrentChat(index, contact)}
                 >
                   <div className="avatar">
-                    <img
+                    {/* <img
                       src={`data:image/svg+xml;base64,${contact.avatarImage}`}
+                      alt=""
+                    /> */}
+                     <img
+                      src={`${contact.avatarImage}`}
                       alt=""
                     />
                   </div>
@@ -75,8 +80,12 @@ export default function Contacts({ contacts, changeChat }) {
           </div>
           <div className="current-user">
             <div className="avatar">
-              <img
+              {/* <img
                 src={`data:image/svg+xml;base64,${currentUserImage}`}
+                alt="avatar"
+              /> */}
+              <img
+                src={`${currentUserImage}`}
                 alt="avatar"
               />
             </div>

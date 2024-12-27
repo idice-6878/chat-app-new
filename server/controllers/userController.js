@@ -6,6 +6,7 @@ module.exports.login = async (req, res, next) => {
   try {
     const { username, password } = req.body;
     const user = await User.findOne({ username });
+    //console.log(user);
     if (!user)
       return res.json({ msg: "Incorrect Username or Password", status: false });
     const isPasswordValid = await bcrypt.compare(password, user.password);
@@ -18,9 +19,13 @@ module.exports.login = async (req, res, next) => {
   }
 };
 
+//saveLoginUser
+
 module.exports.register = async (req, res, next) => {
   try {
-    const { username, email, password } = req.body;
+    //console.log(req.body);
+    const { username, email, password,user_id } = req.body;
+  
     const usernameCheck = await User.findOne({ username });
     if (usernameCheck)
       return res.json({ msg: "Username already used", status: false });
@@ -32,6 +37,7 @@ module.exports.register = async (req, res, next) => {
       email,
       username,
       password: hashedPassword,
+      user_id:user_id
     });
     delete user.password;
     return res.json({ status: true, user });
@@ -144,10 +150,12 @@ module.exports.getAllUsers = async (req, res, next) => {
 
 module.exports.setAvatar = async (req, res, next) => {
   try {
+    //console.log(req.body.image);
+    //console.log(req.params.id);
     const userId = req.params.id;
     const avatarImage = req.body.image;
-    const userData = await User.findByIdAndUpdate(
-      userId,
+    const userData = await User.findOneAndUpdate(
+      { user_id: userId },
       {
         isAvatarImageSet: true,
         avatarImage,
